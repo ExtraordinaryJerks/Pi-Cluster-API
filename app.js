@@ -11,6 +11,8 @@ var Demo = require('./model/demo.js');
 var ServerStat = require('./model/serverstat.js');
 var DemoRoute = new require('./routes/demo')
 var ModelContext = require('./domain/modelcontext.js')
+var seaport = require('seaport');
+var ports = seaport.connect('192.168.1.254', 9090);
 
 var routes = require('./routes');
 
@@ -45,6 +47,4 @@ app.get('/demo', demoroute.retrieve.bind(demoroute))
 
 //app.get('/users', user.list);
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
-});
+http.createServer(app).listen(ports.register('pi-server'));
