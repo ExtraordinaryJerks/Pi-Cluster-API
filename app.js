@@ -18,7 +18,8 @@ var routes = require('./routes');
 
 var app = express();
 
-var mongoConnectionString = 'mongodb://192.168.1.246:27017/picluster';
+var mongoConnectionString = 'mongodb://localhost:27017/picluster';
+//var mongoConnectionString = 'mongodb://192.168.1.246:27017/picluster';
 new ModelContext(mongoConnectionString);
 
 var demoroute = new DemoRoute();
@@ -41,10 +42,14 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
-app.post('/demo', demoroute.create.bind(demoroute))
+app.post('/demo/:size/:runName', demoroute.create.bind(demoroute))
 app.get('/demo', demoroute.retrieve.bind(demoroute))
 
 
 //app.get('/users', user.list);
 
-http.createServer(app).listen(ports.register('pi-server'));
+http.createServer(app).listen(app.get('port'), function(){
+  console.log('Express server listening on port ' + app.get('port'));
+});
+
+//http.createServer(app).listen(ports.register('pi-server'));

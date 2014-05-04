@@ -18,22 +18,27 @@ DemoRoute.prototype = {
 		var serverstat = new ServerStat();
 
 		demo.startDate = new Date();
+		demo.runName = request.params.runName;
+
+		console.log(request.params.runName)
 
 		var code = "";
         var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        for( var i=0; i <= 10000; i++ )
+        for( var i=0; i <= request.params.size; i++ )
         {
         	code += possible.charAt(Math.floor(Math.random() * possible.length));
         }
 
         demo._id = mongoose.Types.ObjectId();
+
+
 		demo.data = code;
 
 		demo.save(function(errordemo, returndemo){
 			if(errordemo){
-				//response.writeHead(500, { 'Content-Type': 'application/json' });
-            	//response.write(JSON.stringify({isSuccessful:false,message:err.message}));
-            	//response.end();
+				response.writeHead(500, { 'Content-Type': 'application/json' });
+            	response.write(JSON.stringify({isSuccessful:false,message:errordemo}));
+            	response.end();
             	return;
 			}
 
@@ -79,21 +84,30 @@ DemoRoute.prototype = {
             return;
 		});
 
-		//console.log("Create Route!");
-		response.end();
+		response.writeHead(200, { 'Content-Type': 'application/json' });
+    	response.write(JSON.stringify({isSuccessful:true}));
+    	response.end();
+    	return;
 
 	},
 	retrieve: function(request, response){
 
-/*		var code = "";
-        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        for( var i=0; i <= 10000; i++ )
-            {
-            	code += possible.charAt(Math.floor(Math.random() * possible.length));
-            }*/
-            response.end();
-        //return code;
+		console.log('Retrieve Demo!')
 
-		
+		var demo = new Demo();
+		console.log("Create New Demo")
+		var returnValue = '';
+
+		demo.findOne({}, {}, { sort: { 'created_at' : 1 } }, function(err, post) {
+			console.log("Return found demo.")
+  			returnValue = JSON.stringify(post);
+		});
+
+		console.log(returnValue);
+
+		response.writeHead(200, { 'Content-Type': 'application/json' });
+    	response.write(returnValue);
+    	response.end();
+    	return;	
 	}
 }
