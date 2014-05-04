@@ -20,6 +20,8 @@ var ServerStatSchema = new Schema({
 	, serverBytesWritten: Number
 	, serverAddress: String
 	, serverPort: String	
+	, size: Number
+	, runName: String
 });
 
 module.exports = mongoose.model('ServerStat', ServerStatSchema);

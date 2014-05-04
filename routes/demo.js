@@ -18,9 +18,6 @@ DemoRoute.prototype = {
 		var serverstat = new ServerStat();
 
 		demo.startDate = new Date();
-		demo.runName = request.params.runName;
-
-		console.log(request.params.runName)
 
 		var code = "";
         var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -30,7 +27,6 @@ DemoRoute.prototype = {
         }
 
         demo._id = mongoose.Types.ObjectId();
-
 
 		demo.data = code;
 
@@ -57,6 +53,7 @@ DemoRoute.prototype = {
 			//serverstat.LoadAverage = OS.loadavg();
 			serverstat.osTotalMemory = OS.totalmem();
 			serverstat.osFreeMemory = OS.freemem();
+			serverstat.runName = request.params.runName;
 
 			var interfaces = OS.networkInterfaces();
 			var addresses = [];
