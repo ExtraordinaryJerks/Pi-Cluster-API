@@ -4,6 +4,7 @@ var mongoose = require('mongoose')
 var ServerStatSchema = new Schema({
 	  demo_id : Schema.Types.ObjectId
 	, creationDate: {type: Date, default: Date.now}
+	, startDate: Date
 	, rss: Number
 	, heapTotal: Number
 	, heapUsed: Number

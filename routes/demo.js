@@ -5,6 +5,7 @@ var Demo = mongoose.model('Demo');
 var ServerStat = mongoose.model('ServerStat');
 var OS = require('os');
 var NET = require('net');
+var random = require('mongoose-random')
 
 module.exports = DemoRoute;
 
@@ -17,7 +18,7 @@ DemoRoute.prototype = {
 		var demo = new Demo();
 		var serverstat = new ServerStat();
 
-		demo.startDate = new Date();
+		serverstat.startDate = new Date();
 
 		var code = "";
         var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -73,7 +74,7 @@ DemoRoute.prototype = {
 						return;
 					}
 
-					console.log(returnstat.serverAddress)
+					console.log(returnstat.serverAddress);
 
 					return;
 			});
@@ -87,24 +88,27 @@ DemoRoute.prototype = {
     	return;
 
 	},
-	retrieve: function(request, response){
+	retrieve: function(request2, response2){
 
-		console.log('Retrieve Demo!')
+		console.log('Retrieve Demo!');
 
-		var demo = new Demo();
-		console.log("Create New Demo")
+		var demo2 = new Demo();
+		console.log("Create New Demo");
 		var returnValue = '';
 
-		demo.findOne({}, {}, { sort: { 'created_at' : 1 } }, function(err, post) {
-			console.log("Return found demo.")
-  			returnValue = JSON.stringify(post);
+		demo2.find(function(errorDemo, obj){
+
+			if(errorDemo){
+				return;
+			}
+
+			returnValue = obj;
+			response2.writeHead(200, { 'Content-Type': 'application/json' });
+    		response2.write(JSON.stringify(returnValue));
+    		response2.end();
+    		return;
+
 		});
-
-		console.log(returnValue);
-
-		response.writeHead(200, { 'Content-Type': 'application/json' });
-    	response.write(returnValue);
-    	response.end();
-    	return;	
+		
 	}
 }

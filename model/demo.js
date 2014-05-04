@@ -3,8 +3,7 @@ var mongoose = require('mongoose')
 
 var Demo = new Schema({
 	  data : String
-	, creationDate: {type: Date, default: Date.now}
-	, startDate: Date
+	, creationDate: {type: Date, default: Date.now}	
 });
 
 module.exports = mongoose.model('Demo', Demo);
